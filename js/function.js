@@ -7,9 +7,9 @@ stringLongCheck('проверяемая строка', 10);
 
 // 2. Функция для проверки, является ли строка палиндромом.
 const palidnromCheck = (string) => {
-  string = string.toLowerCase().replace(/\W|_/g, '');
+  string = string.toLowerCase().replace(/\s/g, '');
   for (let i = 0; i < string.length / 2; i++) {
-    if (string[i] !== string[-i - 1]){
+    if (string[i] !== string.at(-i - 1)){
       return false;
     }
   }
