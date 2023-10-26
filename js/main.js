@@ -33,6 +33,10 @@ const DESCRIPTIONS = [
 ];
 
 const AVATAR_COUNT = 6;
+const LIKE_MIN_COUNT = 15;
+const LIKE_MAX_COUNT = 200;
+const COMMENTS_MAX_COUNT = 30;
+const POST_COUNT = 25;
 
 const getRandomInt = (a, b) => {
   const lower = Math.ceil(Math.min(a, b));
@@ -62,3 +66,15 @@ function createComment() {
     name: getRandomArrayElement(NAMES),
   });
 }
+
+const createPost = (index) => ({
+  id: index,
+  url: `photos/${ index }.jpg`,
+  description: getRandomArrayElement(DESCRIPTIONS),
+  likes: getRandomInt(LIKE_MIN_COUNT, LIKE_MAX_COUNT),
+  comments: Array.from({length: getRandomInt(0, COMMENTS_MAX_COUNT)}, () => createComment()),
+});
+
+const createPage = () => Array.from({length: POST_COUNT}, createPost);
+
+createPage();
