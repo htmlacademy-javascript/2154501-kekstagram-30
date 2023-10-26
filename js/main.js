@@ -21,7 +21,7 @@ const MESSAGES = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
 ];
 
-const COMMENTS = [
+const DESCRIPTIONS = [
   'На охоте',
   'В клубе',
   'С друзьями',
@@ -32,6 +32,8 @@ const COMMENTS = [
   'Семья',
 ];
 
+const AVATAR_COUNT = 6;
+
 const getRandomInt = (a, b) => {
   const lower = Math.ceil(Math.min(a, b));
   const upper = Math.floor(Math.max(a, b));
@@ -41,3 +43,22 @@ const getRandomInt = (a, b) => {
 
 const getRandomArrayElement = (elements) => elements[getRandomInt(0, elements.length - 1)];
 
+function idGenerator () {
+  let lastGeneratedId = 0;
+
+  return () => {
+    lastGeneratedId += 1;
+    return lastGeneratedId;
+  };
+}
+
+const generateCommentsId = idGenerator();
+
+function createComment() {
+  return ({
+    id: generateCommentsId(),
+    avatar: `img/avatar-${getRandomInt(1, AVATAR_COUNT)}.svg`,
+    message: getRandomArrayElement(MESSAGES),
+    name: getRandomArrayElement(NAMES),
+  });
+}
