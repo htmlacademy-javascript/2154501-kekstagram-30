@@ -75,6 +75,8 @@ const createPost = (index) => ({
   comments: Array.from({length: getRandomInt(0, COMMENTS_MAX_COUNT)}, () => createComment()),
 });
 
-const createPage = () => Array.from({length: POST_COUNT}, createPost);
+const createPage = () => Array.from({length: POST_COUNT},
+  (_, postIndex) => createPost(postIndex + 1)
+);
 
 createPage();
