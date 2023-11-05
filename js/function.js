@@ -57,4 +57,38 @@ function idGenerator () {
   };
 }
 
-export { getRandomInt, getRandomArrayElement, idGenerator };
+const timeToMinutes = (x) => {
+  const phrase = x.split(':');
+  //const minutes = Number(phrase[0]);
+  const minutes = (Number(phrase[0]) * 60) + Number(phrase[1]);
+  //console.log(typeof phrase[0]);
+  //console.log(minutes);
+  return minutes;
+};
+
+const timeCheck = (a, b, c, d) => {
+  //переводим a, b, с в числа (в минуты)
+  const startDayTime = timeToMinutes(a);
+  const endDayTime = timeToMinutes(b);
+  const startMeetingTime = timeToMinutes(c);
+  // проверяем что встреча начинается не раньше начала раб дня
+  if(startMeetingTime < startDayTime) {
+    return false;
+  }
+  // вычисляем сколько осталось до конца раб дня с момента начала встречи
+  const leftTime = endDayTime - startMeetingTime;
+  // проверяем что встреча кончается до конца раб дня
+  if(leftTime >= d) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+timeCheck('08:00', '17:30', '14:00', 90); // true
+timeCheck('8:0', '10:0', '8:0', 120); // true
+timeCheck('08:00', '14:30', '14:00', 90); // false
+timeCheck('14:00', '17:30', '08:0', 90); // false
+timeCheck('8:00', '17:30', '08:00', 900); // false
+
+export { getRandomInt, getRandomArrayElement, idGenerator, timeCheck };
