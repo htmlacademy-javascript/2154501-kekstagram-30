@@ -1,3 +1,5 @@
 import {createPage } from './data.js';
+import {drawPhotos} from './picture.js';
 
-createPage();
+const photos = createPage();
+drawPhotos(photos);
