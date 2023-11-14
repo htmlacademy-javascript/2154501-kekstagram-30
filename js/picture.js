@@ -1,3 +1,4 @@
+import {onThumbnailClick} from './big-picture.js';
 //поиск списка картинок
 const picturesList = document.querySelector('.pictures');
 //поиск шаблона
@@ -24,6 +25,13 @@ const drawPhotos = (photos) => {
   });
   //добавляем из коробочки в список
   picturesList.appendChild(fragment);
+  //ищем полноэранный показ изображений
+  const thumbnails = document.querySelectorAll('.picture');
+  //по клику на каждую миниатюру выдаем полное изображение
+  thumbnails.forEach((thumbnail, i) => {
+    onThumbnailClick(thumbnail, photos[i]);
+  });
+
 };
 
 export { drawPhotos };
