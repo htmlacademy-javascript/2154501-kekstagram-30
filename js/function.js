@@ -90,5 +90,7 @@ timeCheck('8:0', '10:0', '8:0', 120); // true
 timeCheck('08:00', '14:30', '14:00', 90); // false
 timeCheck('14:00', '17:30', '08:0', 90); // false
 timeCheck('8:00', '17:30', '08:00', 900); // false
+//событие на нажатие кнопки ESC
+const isEscapeKey = (evt) => evt.key === 'Escape';
 
-export { getRandomInt, getRandomArrayElement, idGenerator, timeCheck };
+export { getRandomInt, getRandomArrayElement, idGenerator, timeCheck, isEscapeKey };
