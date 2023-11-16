@@ -1,5 +1,3 @@
-//поиск списка картинок
-//const picturesList = document.querySelector('.pictures');
 //поиск шаблона с id=picture и классом внутри тоже picture
 const templateFragment = document.querySelector('#picture').content.querySelector('.picture');
 //console.dir(document.querySelector('#picture'));
@@ -28,8 +26,15 @@ const renderThumbnails = (pictures, picturesList) => {
   //для каждого элемента массива фоток создаем миниатюру и кладем в коробочку
   pictures.forEach((picture) => {
     const thumbnail = createThumbnail(picture);
+
+    /*thumbnail.addEventListener('click', (evt) => {
+      evt.preventDefault();
+      showPicture(picture);
+    });*/
     fragment.append(thumbnail);
   });
+
+
   //только после создания всех миниатюр в коробке переносим их на страницу
   picturesList.append(fragment);
 };

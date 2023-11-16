@@ -18,6 +18,7 @@ const renderGallery = (pictures) => {
     showPicture(pictureData);
 
   });
+
   renderThumbnails(pictures, container);
 };
 
