@@ -1,5 +1,46 @@
 import { isEscapeKey } from './function.js';
 
+const bigPictureElement = document.querySelector('.big-picture');
+const bodyElement = document.querySelector('body');
+const closePictureButtonElement = bigPictureElement.querySelector('.big-picture__cancel');
+
+const hidePicture = () =>{
+  bigPictureElement.classList.add('hidden');
+  bodyElement.classList.remove('modal-open');
+  document.removeEventListener('keydown', onEscKeydown);
+};
+
+const onClosePictureButtonClick = () => {
+  hidePicture();
+};
+
+function onEscKeydown(evt) {
+  if (isEscapeKey(evt)) {
+    evt.preventDefault();
+    hidePicture();
+  }
+}
+
+const renderPicture = ({ url, description, likes }) => {
+  bigPictureElement.querySelector('.big-picture__img img').src = url;
+  bigPictureElement.querySelector('.big-picture__img img').alt = description;
+  bigPictureElement.querySelector('.likes-count').textContent = likes;
+  bigPictureElement.querySelector('.social__caption').textContent = description;
+};
+
+const showPicture = (pictureData) => {
+  bigPictureElement.classList.remove('hidden'); //картинка появляется
+  bodyElement.classList.add('modal-open'); //модальное окно открывается
+  document.addEventListener('keydown', onEscKeydown);
+  renderPicture(pictureData);
+};
+
+closePictureButtonElement.addEventListener('click', onClosePictureButtonClick);
+
+export { showPicture};
+
+
+/*
 //названия переменных берем по названию классов в HTML
 const body = document.querySelector('body');
 const bigPicture = document.querySelector('.big-picture');
@@ -72,4 +113,4 @@ const onThumbnailClick = (thumbnail, pictureInfo) => {
 
 closeBigPictureButton.addEventListener('click', onCloseBigPicture);
 
-export {onThumbnailClick};
+export {onThumbnailClick};*/

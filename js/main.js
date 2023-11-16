@@ -1,6 +1,7 @@
 import {createPage } from './data.js';
-import {renderThumbnails} from './picture.js';
+//import {renderThumbnails} from './picture.js';
 import './big-picture.js';
+import { renderGallery } from './gallery.js';
 
-const photos = createPage();
-renderThumbnails(photos);
+
+renderGallery(createPage());
