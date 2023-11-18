@@ -1,37 +1,42 @@
-import {onThumbnailClick} from './big-picture.js';
-//поиск списка картинок
-const picturesList = document.querySelector('.pictures');
-//поиск шаблона
-const templateFragment = document.querySelector('#picture .picture');
+//поиск шаблона с id=picture и классом внутри тоже picture
+const templateFragment = document.querySelector('#picture').content.querySelector('.picture');
+//console.dir(document.querySelector('#picture'));
 
-const drawPhotos = (photos) => {
-  //коробка для хранения
-  const fragment = document.createDocumentFragment();
-  //заполняем шаблон
-  photos.forEach(({ url, description, likes, comments }) => {
-    //клонируем узел с вложениями
-    const element = templateFragment.cloneNode(true);
-    //создаем переменную под каждое свойство
-    const elementImage = element.querySelector('.picture__img');
-    const elementLikes = element.querySelector('.picture__likes');
-    const elementComments = element.querySelector('.picture__comments');
-    //передаем переменные в свойства вновь созданного элемента из шаблона
-    elementImage.src = url;
-    elementImage.alt = description;
-    elementLikes.textContent = likes;
-    elementComments.textContent = comments.length;
-    //добавляем в коробочку каждое изображение
-    fragment.appendChild(element);
-  });
-  //добавляем из коробочки в список
-  picturesList.appendChild(fragment);
-  //ищем полноэранный показ изображений
-  const thumbnails = document.querySelectorAll('.picture');
-  //по клику на каждую миниатюру выдаем полное изображение
-  thumbnails.forEach((thumbnail, i) => {
-    onThumbnailClick(thumbnail, photos[i]);
-  });
-
+//создаем новый элемент по шаблону, параметры передаем по деструкту
+const createThumbnail = ({ url, description, likes, comments, id }) => {
+  //клонируем узел с вложениями
+  const element = templateFragment.cloneNode(true);
+  //создаем переменную под каждое свойство
+  const elementImage = element.querySelector('.picture__img');
+  const elementLikes = element.querySelector('.picture__likes');
+  const elementComments = element.querySelector('.picture__comments');
+  //передаем переменные в свойства вновь созданного элемента из шаблона
+  elementImage.src = url;
+  elementImage.alt = description;
+  elementLikes.textContent = likes;
+  elementComments.textContent = comments.length;
+  element.dataset.thumbnailId = id;
+  //добавляем в коробочку каждое изображение
+  return element;
 };
 
-export { drawPhotos };
+const renderThumbnails = (pictures, picturesList) => {
+  //создаем коробочку
+  const fragment = document.createDocumentFragment();
+  //для каждого элемента массива фоток создаем миниатюру и кладем в коробочку
+  pictures.forEach((picture) => {
+    const thumbnail = createThumbnail(picture);
+
+    /*thumbnail.addEventListener('click', (evt) => {
+      evt.preventDefault();
+      showPicture(picture);
+    });*/
+    fragment.append(thumbnail);
+  });
+
+
+  //только после создания всех миниатюр в коробке переносим их на страницу
+  picturesList.append(fragment);
+};
+
+export { renderThumbnails };
