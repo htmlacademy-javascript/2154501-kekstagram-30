@@ -1,6 +1,6 @@
+const DEFAULT_SCALE = 100;
 const MAX_SCALE = 100;
 const MIN_SCALE = 25;
-const DEFAULT_SCALE = 100;
 const SCALE_STEP = 25;
 
 const modalElement = document.querySelector('.img-upload');
