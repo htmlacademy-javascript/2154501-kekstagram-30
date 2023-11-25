@@ -93,4 +93,20 @@ timeCheck('8:00', '17:30', '08:00', 900); // false
 //событие на нажатие кнопки ESC
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-export { getRandomInt, getRandomArrayElement, idGenerator, timeCheck, isEscapeKey };
+const REMOVE_MESSAGE_TIMEOUT = 500;
+
+const errorMessageTemplate = document
+  .querySelector('#data-error')
+  .content
+  .querySelector('.data-error');
+
+function showErrorMessage() {
+  const errorElement = errorMessageTemplate.cloneNode(true);
+  document.body.append(errorElement);
+
+  setTimeout(() => {
+    errorElement.remove();
+  }, REMOVE_MESSAGE_TIMEOUT);
+}
+
+export { getRandomInt, getRandomArrayElement, idGenerator, timeCheck, isEscapeKey, showErrorMessage };

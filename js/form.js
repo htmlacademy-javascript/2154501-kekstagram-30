@@ -3,6 +3,8 @@ import {
   init as initEffect,
   reset as resetEffect
 } from './effect.js';
+import { sendPictures } from './api.js';
+import { showErrorMeassage, showSuccesMeassage } from './message.js';
 
 const MAX_HASHTAG_COUNT = 5;
 const VALID_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
@@ -12,6 +14,11 @@ const ErrorText = {
   INVALID_PATTERN: 'Неправильный хэштег',
 };
 
+const SubmitButtonCaption = {
+  SUBMITTING: 'Отпрвляю...',
+  IDLE: 'Опубликовать',
+};
+
 const body = document.querySelector('body');
 const form = document.querySelector('.img-upload__form');
 const overlay = form.querySelector('.img-upload__overlay');
@@ -19,11 +26,22 @@ const cancelButton = form.querySelector('.img-upload__cancel');
 const fileField = form.querySelector('.img-upload__input');
 const hashtagField = form.querySelector('.text__hashtags');
 const commentField = form.querySelector('.text__description');
+const submitButton = form.querySelector('.img-upload__submit');
+
+function toggleSubmitButton(isDisabled) {
+  submitButton.disabled = isDisabled;
+
+  if (isDisabled) {
+    submitButton.textContent = SubmitButtonCaption.SUBMITTING;
+  } else {
+    submitButton.textContent = SubmitButtonCaption.IDLE;
+  }
+}
 
 const pristine = new Pristine(form, {
   classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper',
-  errorTextClass: 'img-upload__field-wrapper__error',
+  errorTextClass: 'img-upload__field-wrapper--error',
 });
 
 const showModal = () => {
@@ -61,8 +79,13 @@ const hasUniqueTags = (value) => {
   return lowerCaseTags.length === new Set(lowerCaseTags).size; //Set оставляет только уникальные теги
 };
 
+function isErrorMessageExists() {
+  return Boolean(document.querySelector('.error'));
+}
+
 function onDocumentKeydown(evt) {
-  if(evt.key === 'Escape' && !isTextFieldFocused()) {
+
+  if(evt.key === 'Escape' && !isTextFieldFocused() && !isErrorMessageExists()) {
     evt.preventDefault();
     hideModal();
   }
@@ -76,9 +99,26 @@ const onFileInputChange = () => {
   showModal();
 };
 
-const onFormSubmit = (evt) => {
+async function sendForm(formElement){
+  if (! pristine.validate()) {
+    return;
+  }
+
+  try {
+    toggleSubmitButton(true);
+    await sendPictures(new FormData(formElement));
+    toggleSubmitButton(false);
+    hideModal();
+    showSuccesMeassage();
+  } catch {
+    showErrorMeassage();
+    toggleSubmitButton(false);
+  }
+}
+
+const onFormSubmit = async (evt) => {
   evt.preventDefault();
-  pristine.validate();
+  sendForm(evt.target);
 };
 
 pristine.addValidator(
@@ -93,7 +133,7 @@ pristine.addValidator(
   hashtagField,
   hasUniqueTags,
   ErrorText.NOT_UNIQUE,
-  2,
+  1,
   true
 );
 
@@ -101,7 +141,7 @@ pristine.addValidator(
   hashtagField,
   hasValidTags,
   ErrorText.INVALID_PATTERN,
-  1,
+  2,
   true
 );
 
