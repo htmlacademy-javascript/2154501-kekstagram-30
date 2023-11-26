@@ -33,7 +33,6 @@ const effectToFilter = {
 const effectToSliderOptions = {
   [Effect.DEFAULT]: {
     range: {
-      min: 0,
       max: 100,
     },
     start: 100,
@@ -41,7 +40,6 @@ const effectToSliderOptions = {
   },
   [Effect.CHROME]: {
     range: {
-      min: 0,
       max: 1,
     },
     start: 1,
@@ -49,7 +47,6 @@ const effectToSliderOptions = {
   },
   [Effect.SEPIA]: {
     range: {
-      min: 0,
       max: 1,
     },
     start: 1,
@@ -57,7 +54,6 @@ const effectToSliderOptions = {
   },
   [Effect.MARVIN]: {
     range: {
-      min: 0,
       max: 100,
     },
     start: 100,
@@ -116,7 +112,7 @@ const onSliderUpdate = () => {
   setImageStyle();
 };
 
-const createSlider = ({ min, max, step }) => {
+const createSlider = ({ range:{min = 0, max}, step }) => {
   noUiSlider.create(sliderElement, {
     range: { min, max },
     step,
@@ -131,7 +127,7 @@ const createSlider = ({ min, max, step }) => {
   hideSlider();
 };
 
-const updateSlider = ({ min, max, step }) => {
+const updateSlider = ({ range:{min = 0, max}, step }) => {
   sliderElement.noUiSlider.updateOptions({
     range: { min, max},
     step,
