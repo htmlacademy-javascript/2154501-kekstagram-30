@@ -35,30 +35,34 @@ const filterHandlers = {
 
 let currentFilter = FilterEnum.DEFAULT;
 
-const repaint = (event, filter, data) => {
-  if(currentFilter !== filter){
-    const filteredData = filterHandlers[filter](data);
-    const pictures = document.querySelectorAll('.picture');
-    pictures.forEach((item) => item.remove());
-    renderGallery(filteredData);
-    const currentActiveEl = filterForm.querySelector('.img-filters__button--active');
-    currentActiveEl.classList.remove('img-filters__button--active');
-    event.target.classList.add('img-filters__button--active');
-    currentFilter = filter;
-  }
+const repaint = (filter, data) => {
+  const filteredData = filterHandlers[filter](data);
+  const pictures = document.querySelectorAll('.picture');
+  pictures.forEach((item) => item.remove());
+  renderGallery(filteredData);
 };
 
 const debounceRepained = debounce(repaint);
 
+const changeFilter = (event, filter, data) => {
+  if(currentFilter !== filter){
+    const currentActiveEl = filterForm.querySelector('.img-filters__button--active');
+    currentActiveEl.classList.remove('img-filters__button--active');
+    event.target.classList.add('img-filters__button--active');
+    currentFilter = filter;
+    debounceRepained(filter, data);
+  }
+};
+
 export const initFilter = (data) => {
   filtersEl.classList.remove('img-filters--inactive');
   defaultBtn.addEventListener('click', (event) => {
-    debounceRepained(event, FilterEnum.DEFAULT, data);
+    changeFilter(event, FilterEnum.DEFAULT, data);
   });
   randomBtn.addEventListener('click', (event) => {
-    debounceRepained(event, FilterEnum.RANDOM, data);
+    changeFilter(event, FilterEnum.RANDOM, data);
   });
   discussedBtn.addEventListener('click', (event) => {
-    debounceRepained(event, FilterEnum.DISCUSSED, data);
+    changeFilter(event, FilterEnum.DISCUSSED, data);
   });
 };
