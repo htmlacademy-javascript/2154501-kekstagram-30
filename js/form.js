@@ -74,7 +74,7 @@ const isValidType = (file) => {
 
 const normalizeTags = (tagString) => tagString
   .trim() // обрезаем пробелы в начале и в конце
-  .split('') // если тегов много делаем массив тегов, пробелы тоже теги:(
+  .split(' ') // если тегов много делаем массив тегов, пробелы тоже теги:(
   .filter((tag) => Boolean(tag.length)); //приведение пустой строки к false, на выходе только не пустые
 
 const hasValidTags = (value) => normalizeTags(value).every((tag) => VALID_SYMBOLS.test(tag)); //true
