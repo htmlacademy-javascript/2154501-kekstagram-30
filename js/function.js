@@ -1,3 +1,5 @@
+const REMOVE_MESSAGE_TIMEOUT = 500;
+
 // 1. Функция для проверки длины строки
 const stringLongCheck = (string, length) => string.length <= length;
 stringLongCheck('Проверяемая строка', 11);
@@ -59,10 +61,7 @@ function idGenerator () {
 
 const timeToMinutes = (x) => {
   const phrase = x.split(':');
-  //const minutes = Number(phrase[0]);
   const minutes = (Number(phrase[0]) * 60) + Number(phrase[1]);
-  //console.log(typeof phrase[0]);
-  //console.log(minutes);
   return minutes;
 };
 
@@ -92,8 +91,6 @@ timeCheck('14:00', '17:30', '08:0', 90); // false
 timeCheck('8:00', '17:30', '08:00', 900); // false
 //событие на нажатие кнопки ESC
 const isEscapeKey = (evt) => evt.key === 'Escape';
-
-const REMOVE_MESSAGE_TIMEOUT = 500;
 
 const errorMessageTemplate = document
   .querySelector('#data-error')
