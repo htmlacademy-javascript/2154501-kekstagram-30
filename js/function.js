@@ -1,3 +1,5 @@
+const REMOVE_MESSAGE_TIMEOUT = 500;
+
 // 1. Функция для проверки длины строки
 const stringLongCheck = (string, length) => string.length <= length;
 stringLongCheck('Проверяемая строка', 11);
@@ -89,8 +91,6 @@ timeCheck('14:00', '17:30', '08:0', 90); // false
 timeCheck('8:00', '17:30', '08:00', 900); // false
 //событие на нажатие кнопки ESC
 const isEscapeKey = (evt) => evt.key === 'Escape';
-
-const REMOVE_MESSAGE_TIMEOUT = 500;
 
 const errorMessageTemplate = document
   .querySelector('#data-error')
