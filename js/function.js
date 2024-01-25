@@ -59,10 +59,7 @@ function idGenerator () {
 
 const timeToMinutes = (x) => {
   const phrase = x.split(':');
-  //const minutes = Number(phrase[0]);
   const minutes = (Number(phrase[0]) * 60) + Number(phrase[1]);
-  //console.log(typeof phrase[0]);
-  //console.log(minutes);
   return minutes;
 };
 
